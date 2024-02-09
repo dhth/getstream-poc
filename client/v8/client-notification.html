@@ -3,20 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notification Feed</title>
+    <title>Notification Feed v8</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/getstream@8.0.0/dist/js_min/getstream.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/getstream@8.4.1/dist/js_min/getstream.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script>
         const apiKey = "XXX";
         const appId = "XXX";
-        const userId = "XXX";
+        const userId = "1";
         const userToken = "XXX";
-        const feedType = "user";
-        // feeds:
-        // user: flat
-        // notifications: notification
+        const feedType = "notification";
 
+        window.process = { env: {} };
         const client = stream.connect(apiKey, userToken, appId);
 
         const feed = client.feed(feedType, userId);
@@ -61,7 +59,7 @@
 </head>
 <body class="bg-gray-100 min-h-screen py-8">
     <div class="max-w-lg mx-auto">
-        <h1 class="text-3xl font-semibold mb-6">Notification Feed</h1>
+        <h1 class="text-3xl font-semibold mb-6">Notification Feed v8</h1>
         <ul id="feed-container"></ul>
     </div>
 </body>

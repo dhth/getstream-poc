@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification Feed v6</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/getstream@6.2.0/dist/js_min/getstream.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script>
+        const apiKey = "XXX";
+        const appId = "XXX";
+        const userId = "1";
+        const feedToken = "XXX";
+        const feedType = "notification";
+
+        const client = stream.connect(apiKey, null, appId);
+
+        const feed = client.feed(feedType, userId, feedToken);
+        console.log(feed);
+
+        async function renderFeed() {
+            try {
+                const response = await feed.get({ limit: 10 });
+                const activities = response.results;
+
+                const feedContainer = document.getElementById("feed-container");
+                feedContainer.innerHTML = "";
+
+                if (Array.isArray(activities)) {
+                    activities.forEach(activity => {
+                        const activityElement = document.createElement("li");
+                        activityElement.classList.add("bg-white", "shadow-md", "p-4", "rounded-md", "mb-4");
+                        activityElement.textContent = JSON.stringify(activity, null, 2); // Original formatting
+                        feedContainer.appendChild(activityElement);
+                    });
+                } else {
+                    console.error("Activities is not an array:", activities);
+                }
+            } catch (error) {
+                console.error("Error fetching activities:", error);
+            }
+        }
+
+        async function pollForActivities() {
+            // Fetch activities every 10 seconds
+            while (true) {
+                await renderFeed();
+                await new Promise(resolve => setTimeout(resolve, 2000)); // 2 seconds interval
+            }
+        }
+
+        window.onload = () => {
+            renderFeed(); // Initial render
+            pollForActivities(); // Start polling for new activities
+        };
+    </script>
+</head>
+<body class="bg-gray-100 min-h-screen py-8">
+    <div class="max-w-lg mx-auto">
+        <h1 class="text-3xl font-semibold mb-6">Notification Feed v6</h1>
+        <ul id="feed-container"></ul>
+    </div>
+</body>
+</html>

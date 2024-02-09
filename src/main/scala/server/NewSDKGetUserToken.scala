@@ -1,6 +1,8 @@
+package server
+
 import io.getstream.client.Client
 
-object GetUserToken {
+object NewSDKGetUserToken {
   def main(args: Array[String]): Unit = {
     val apiKey: String = System.getenv("GETSTREAM_API_KEY")
     val apiSecret: String = System.getenv("GETSTREAM_API_SECRET")
